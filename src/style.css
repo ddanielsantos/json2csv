@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+textarea{
+    resize: none;
+}
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    margin: 1em 3em;
+    padding: 1em;
+    /* border: 1px solid black; */
+}

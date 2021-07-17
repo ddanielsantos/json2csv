@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="src/style.css">
+    <title>JSON para CSV</title>
+</head>
+<body>
+    <h1>Meu conversor de JSON para CSV</h1>
+    <div class="formulario">
+        
+            <label for="tituloArquivo">Título do arquivo:</label>
+            <input type="text" name="tituloArquivo" id="tituloArquivo">
+            <label for="conteudoJSON">JSON:</label>
+            <textarea name="conteudoJSON" id="conteudoJSON" cols="30" rows="10"></textarea>
+            <!-- <input type="submit" value="Converter"> -->
+            <button id="converte">
+                Converter
+            </button>
+    </div>
+
+    <script src="lib/FileSaver.js"></script>
+    <script src="src/index.js"></script>
+</body>
+</html>
