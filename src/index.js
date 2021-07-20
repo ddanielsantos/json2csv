@@ -1,45 +1,51 @@
 const button = document.querySelector('#converte');
 
-const geraArquivo = () => {
-    let titulo = document.querySelector('#tituloArquivo').value;
-    let entrada = document.querySelector('#conteudoJSON').value;
-    let jsao = JSON.parse(entrada)
-    let colunas = Object.keys(...jsao)
+const createArchive = () => {
+    let title = document.querySelector('#tituloArquivo').value;
+    let body = document.querySelector('#conteudoJSON').value;
+    
+    // Identifica a string recebida e parseia para JSON
+    let parsedBody = JSON.parse(body)
+
+    // Passsa todos os elementos do array por spread e obtém as chaves dos objetos
+    let columns = Object.keys(...parsedBody)
+
+    // Regex pra retirar \n's
+    let cutExplicitJumpLine = /\n/mg
+
+    // Conteudo que armazenará tanto cabeçalhos quanto células
     let final = ''
     
-    // console.log(colunas)
-    // console.log(jsao)
-    // console.log(jsao.length)
-    
-    for(let i = 0; i < colunas.length; i++){
-        if(i == colunas.length - 1){
-            final+=colunas[i]+'\n'
+    // Passando colunas no início do documento
+    for(let i = 0; i < columns.length; i++){
+        // A última coluna não possui ;
+        if(i == columns.length - 1){
+            final+=columns[i]+'\n'
         }else{
-            final+=colunas[i]+';'
+            final+=columns[i]+';'
         }
     }
-    
-    // let celulas = Object.values(jsao[2])[3]
-    // console.log(celulas)
-    
-    for(let x = 0 ; x < jsao.length; x++){
-        for(let y = 0; y < colunas.length; y++){
-            if(y === colunas.length -1){
-                final+=Object.values(jsao[x])[y]+'\n'
+        
+    for(let x = 0 ; x < parsedBody.length; x++){
+        let line = ''
+        let regexed = ''
+        let content = ''
+        for(let y = 0; y < columns.length; y++){
+            line = Object.values(parsedBody[x])[y]
+            line = line.toString()
+            regexed = line.replaceAll(cutExplicitJumpLine, ' ')
+            if(y === columns.length -1){
+                content = regexed+'\n'
             }else{
-                final+=Object.values(jsao[x])[y]+';'
+                content = regexed+';'
             }
-            // console.log(Object.values(jsao[x])[y])    
+            final += content
         }
     }
 
-    // console.log(Object.values(jsao[2]))
-    console.log(final)
-    
+    // Joga todo o conteúdo formatado no saveAs para a criação do arquivo
     let blob = new Blob([final], {type: "text/plain;charset=utf-8"})
-    // Mudar depois para csv e configurar corretamente
-    saveAs(blob, titulo+'.csv')
-    // console.log(blob)
+    saveAs(blob, title+'.csv')
 }
 
-button.addEventListener('click', geraArquivo)
+button.addEventListener('click', createArchive)
